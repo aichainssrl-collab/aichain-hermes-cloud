@@ -1,0 +1,18 @@
+services:
+  hermes:
+    image: gcr.io/aichain-solutions/hermes-cloud:latest
+    environment:
+      - USER_ID=boss
+      - FIRESTORE_PROJECT_ID=aichain-solutions-id
+    volumes:
+      - ./data:/home/fred/.hermes
+
+  webui:
+    image: ghcr.io/open-webui/open-webui:main
+    ports:
+      - "3000:8080"
+    environment:
+      - OPENAI_API_BASE_URL=http://hermes:8080/v1
+      - OPENAI_API_KEY=dummy
+    depends_on:
+      - hermes
